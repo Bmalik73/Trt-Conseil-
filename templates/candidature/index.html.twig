@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Candidature index{% endblock %}
+
+{% block body %}
+    <h1>Candidature index</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for candidature in candidatures %}
+            <tr>
+                <td>{{ candidature.firstname }}</td>
+                <td>{{ candidature.lastname }}</td>
+                <td>
+                    <a class="btn btn-info" href="{{ path('app_candidature_show', {'id': candidature.id}) }}">Voir</a>
+                    <a class="btn btn-primary" href="{{ path('app_candidature_edit', {'id': candidature.id}) }}">Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_candidature_new') }}">Nouvelle candidature</a>
+{% endblock %}

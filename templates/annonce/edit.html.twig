@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier l'annonce{% endblock %}
+
+{% block body %}
+    <h1>Modifier l'annonce</h1>
+
+    {{ include('annonce/_form.html.twig', {'button_label': 'Publier'}) }}
+
+    <a class="btn btn-info mt-3" href="{{ path('app_annonce_index') }}">Retour</a>
+
+    {{ include('annonce/_delete_form.html.twig') }}
+{% endblock %}

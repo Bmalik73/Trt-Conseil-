@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenu{% endblock %}
+
+{% block body %}
+{% if app.user.isValidate == false %}
+<p>Votre compte a bien été créer, vous aurez accès à tout le site quand votre compte sera validé par notre consultant</p>
+{% endif %}
+
+{% if app.user.isValidate == true %}
+<p>Votre compte à été validé !</p>
+{% endif %}
+{% endblock %}

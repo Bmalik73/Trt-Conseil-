@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AnnonceRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -15,67 +17,121 @@ class Annonce
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $job_title = null;
+    private ?string $title = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $job_location = null;
+    private ?string $place = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $job_description = null;
+    private ?string $description = null;
 
-    #[ORM\Column]
-    private ?bool $is_approuved = null;
+    #[ORM\Column(nullable: true)]
+    private ?bool $isPublished = null;
+
+    #[ORM\OneToMany(mappedBy: 'annonce', targetEntity: Candidature::class)]
+    private Collection $postulation;
+
+    #[ORM\ManyToOne(inversedBy: 'annonces')]
+    private ?User $owner = null;
+
+    public function __construct()
+    {
+        $this->postulation = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getJobTitle(): ?string
+    public function getTitle(): ?string
     {
-        return $this->job_title;
+        return $this->title;
     }
 
-    public function setJobTitle(string $job_title): self
+    public function setTitle(string $title): self
     {
-        $this->job_title = $job_title;
+        $this->title = $title;
 
         return $this;
     }
 
-    public function getJobLocation(): ?string
+    public function getPlace(): ?string
     {
-        return $this->job_location;
+        return $this->place;
     }
 
-    public function setJobLocation(string $job_location): self
+    public function setPlace(string $place): self
     {
-        $this->job_location = $job_location;
+        $this->place = $place;
 
         return $this;
     }
 
-    public function getJobDescription(): ?string
+    public function getDescription(): ?string
     {
-        return $this->job_description;
+        return $this->description;
     }
 
-    public function setJobDescription(string $job_description): self
+    public function setDescription(string $description): self
     {
-        $this->job_description = $job_description;
+        $this->description = $description;
 
         return $this;
     }
 
-    public function isIsApprouved(): ?bool
+    public function isIsPublished(): ?bool
     {
-        return $this->is_approuved;
+        return $this->isPublished;
     }
 
-    public function setIsApprouved(bool $is_approuved): self
+    public function setIsPublished(bool $isPublished): self
     {
-        $this->is_approuved = $is_approuved;
+        $this->isPublished = $isPublished;
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Candidature>
+     */
+    public function getPostulation(): Collection
+    {
+        return $this->postulation;
+    }
+
+    public function addPostulation(Candidature $postulation): self
+    {
+        if (!$this->postulation->contains($postulation)) {
+            $this->postulation->add($postulation);
+            $postulation->setAnnonce($this);
+        }
+
+        return $this;
+    }
+
+    public function removePostulation(Candidature $postulation): self
+    {
+        if ($this->postulation->removeElement($postulation)) {
+            // set the owning side to null (unless already changed)
+            if ($postulation->getAnnonce() === $this) {
+                $postulation->setAnnonce(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): self
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+    
 }

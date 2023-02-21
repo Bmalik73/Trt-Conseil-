@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Annonces{% endblock %}
+
+{% block body %}
+    <h1>Annonces</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Adresse</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for annonce in annonces %}
+            <tr>
+                <td>{{ annonce.title }}</td>
+                <td>{{ annonce.place }}</td>
+                <td>{{ annonce.description }}</td>
+                <td>
+                    <a class="btn btn-info" href="{{ path('app_annonce_candidat_show', {'id': annonce.id}) }}">Voir</a>
+                    <a class="btn btn-primary ms-3" href="{{ path('app_candidature_new', {'id': annonce.id}) }}">Postuler</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">Aucune annonces</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
