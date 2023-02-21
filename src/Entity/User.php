@@ -317,13 +317,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
         return $this;
     }
 
-    public function getSalt()
-    {
-        // TODO: Implement getSalt() method.
-    }
-
-    public function getUsername()
-    {
-        // TODO: Implement getUsername() method.
-    }
 }
