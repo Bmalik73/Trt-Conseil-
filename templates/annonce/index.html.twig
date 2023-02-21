@@ -7,16 +7,16 @@
 
     <table class="table table-striped">
         <thead>
-            <tr>
-                <th>Titre</th>
-                <th>Adresse</th>
-                <th>Description</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Titre</th>
+            <th>Adresse</th>
+            <th>Description</th>
+            <th>actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for annonce in annonces %}
-            {% if app.user.id == annonce.owner.id %}
+            {% if annonce.owner is not null and annonce.owner.id is defined and app.user.id == annonce.owner.id %}
                 <tr>
                     <td>{{ annonce.title }}</td>
                     <td>{{ annonce.place }}</td>
@@ -29,7 +29,7 @@
             {% endif %}
         {% else %}
             <tr>
-                <td colspan="5">Aucune annonce</td>
+                <td colspan="4">Aucune annonce</td>
             </tr>
         {% endfor %}
         </tbody>
