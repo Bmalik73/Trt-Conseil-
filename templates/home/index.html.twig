@@ -1,13 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Bienvenu{% endblock %}
+{% block title %}ACCUEIL :: TRT Conseil{% endblock %}
 
 {% block body %}
-{% if app.user.isValidate == false %}
-<p>Votre compte a bien été créer, vous aurez accès à tout le site quand votre compte sera validé par notre consultant</p>
-{% endif %}
+    
+    <div class="w-100">
+        <div class="text-center">
+            <div class="middle-window position-absolute top-50 start-50 translate-middle">
+                <h1 class="h1 m-5">TRT Conseil</h1>
+                <div>
+                    <a class="btn btn-primary button-shadow me-2" href="{{ path('app_login') }}" role="button">Se connecter</a>
+                    <a class="btn btn-light button-shadow ms-2" href="{{ path('app_register') }}" role="button">Créer un compte</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
-{% if app.user.isValidate == true %}
-<p>Votre compte à été validé !</p>
-{% endif %}
 {% endblock %}

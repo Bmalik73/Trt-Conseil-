@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ADMINISTRATION :: TRT Conseil{% endblock %}
+
+{% block body %}
+
+    {{ include('parts/_header.html.twig') }}
+
+    <div class="large-center-wrapper mb-5">
+        <div class="page-title-wrapper">
+            <h2>ADMINISTRATION</h2>
+        </div>
+
+        <div class="inner-center-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-8">
+                        <h3>Liste des consultants</h3>
+                        <div class="table-wrapper mt-3 p-2">
+                            <table class="table table-sm table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Nom
+                                        </th>
+                                        <th>
+                                            Prénom
+                                        </th>
+                                        <th class="text-center">
+                                            E-mail
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for consultant in consultants %}
+                                        <tr>
+                                            <td>{{ consultant.firstName }}</td>
+                                            <td>{{ consultant.lastName }}</td>
+                                            <td class="text-center"><a href="mailto:{{ consultant.user.email }}">{{ consultant.user.email }}</a></td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="3">Aucun consultant trouvé</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-4 d-flex flex-column align-items-center left-separator">
+                        <h3>Créer un consultant</h3>
+                        {{ form_start(registrationForm) }}
+                            <label class="mt-2" for="inputEmail">Prénom</label>
+                            {{ form_row(registrationForm.firstName, {
+                                id: 'inputFirstName'
+                            }) }}
+                            <label class="mt-2" for="inputEmail">Nom</label>
+                            {{ form_row(registrationForm.lastName, {
+                                id: 'inputLastName'
+                            }) }}
+                            <label class="mt-2" for="inputEmail">E-mail</label>
+                            {{ form_row(registrationForm.email, {
+                                id: 'inputEmail'
+                            }) }}
+                            <label class="mt-2" for="inputPassword">Mot de passe</label>
+                            {{ form_row(registrationForm.plainPassword, {
+                                id: 'inputPassword'
+                            }) }}
+                            <div class="d-flex flex-row justify-content-center">
+                                <button type="submit" class="btn btn-primary button-shadow me-2 mt-4">Enregistrer le Consultant</button>
+                            </div>
+                        {{ form_end(registrationForm) }}
+                    </div>
+                </div>
+            </div>            
+        </div>
+    </div>
+    <div>&ensp;</div>
+
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}RECRUTEUR :: TRT Conseil{% endblock %}
+
+{% block body %}
+
+  {{ include('parts/_header.html.twig') }}
+
+  <div class="large-center-wrapper mb-5">
+    <div class="page-title-wrapper">
+        <h2>RECRUTEUR</h2>
+    </div>
+
+    <div class="inner-center-wrapper">
+      <h3>Votre offre d'emploi a été supprimée</h3>
+      <div class="alert alert-success text-center mt-3">
+        L'offre d'emploi intitulée {{ jobOffer.title }} a bien été supprimée. Elle est désormais invisible pour les candidats.
+      </div>
+      <a class="btn btn-primary button-shadow mt-3" href="{{ path('app_recruiter') }}" role="button">Retour</a>
+    </div>
+  </div>
+
+{% endblock %}

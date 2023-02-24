@@ -14,18 +14,12 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
+            access_denied_url: /no-permission
             lazy: true
             provider: app_user_provider
+            custom_authenticator: App\Security\LoginAuthenticator
             logout:
                 path: app_logout
-                # where to redirect after logout
-                target: app_login
-
-            form_login:
-                # "app_login" is the name of the route created previously
-                login_path: app_login
-                check_path: app_login
-                default_target_path: /home
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -35,12 +29,19 @@ security:
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
+    role_hierarchy:
+        ROLE_UNAUTHORIZED: ROLE_USER
+        ROLE_CANDIDATE: ROLE_UNAUTHORIZED
+        ROLE_RECRUITER: ROLE_UNAUTHORIZED
+        ROLE_CONSULTANT: ROLE_UNAUTHORIZED
+        ROLE_ADMINISTRATOR: ROLE_UNAUTHORIZED
+
     access_control:
-         - { path: ^/admin, roles: ROLE_ADMIN }
-         - { path: ^/recruteur, roles: ROLE_RECRUTEUR }
-         - { path: ^/candidat, roles: ROLE_CANDIDAT }
-         - { path: ^/consultant, roles: ROLE_CONSULTANT }
-         - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/wait_for_validation, roles: ROLE_UNAUTHORIZED }
+        - { path: ^/admin, roles: ROLE_ADMINISTRATOR }
+        - { path: ^/consultant, roles: ROLE_CONSULTANT }
+        - { path: ^/recruiter, roles: ROLE_RECRUITER }
+        - { path: ^/candidate, roles: ROLE_CANDIDATE }
 
 when@test:
     security:

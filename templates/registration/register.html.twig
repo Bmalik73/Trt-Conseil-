@@ -1,17 +1,36 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Admin{% endblock %}
+{% block title %}ENREGISTREMENT :: TRT Conseil{% endblock %}
 
 {% block body %}
-    <h1>Admin</h1>
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Mot de passe'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+    <div class="w-100">
+        <div class="middle-window position-absolute top-50 start-50 p-4 text-center translate-middle">
+            <img class="small-logo mb-2" src="{{ asset('images/logo.png') }}" alt="Logo">
+            <h2 class="mb-3 font-weight-normal">S'ENREGISTRER</h2>
+            {{ form_start(registrationForm) }}
+                <label for="inputUserType">Vous êtes</label>
+                {{ form_row(registrationForm.userType, {
+                    id: 'inputUserType'
+                }) }}
+                <label class="mt-2" for="inputEmail">E-mail</label>
+                {{ form_row(registrationForm.email, {
+                    id: 'inputEmail'
+                }) }}
+                <label class="mt-2" for="inputPassword">Mot de passe</label>
+                {{ form_row(registrationForm.plainPassword, {
+                    id: 'inputPassword'
+                }) }}
+                <div class="mt-3 d-flex flex-row justify-content-center">
+                    {{ form_row(registrationForm.agreeTerms) }}
+                    <label class="ms-1">J'accepte les conditions</label>
+                </div>
+                
 
-        <button type="submit" class="btn">Enregistrer</button>
-    {{ form_end(registrationForm) }}
+                <button type="submit" class="btn btn-primary button-shadow me-2 mt-4">S'enregistrer</button>
+                <a class="btn btn-light button-shadow ms-2 mt-4" href="{{ path('app_home') }}" role="button">Retour</a>
+            {{ form_end(registrationForm) }}
+        </div>
+    </div>
+
 {% endblock %}

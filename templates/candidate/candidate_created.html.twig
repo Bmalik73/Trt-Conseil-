@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CANDIDAT :: TRT Conseil{% endblock %}
+
+{% block body %}
+
+  {{ include('parts/_header.html.twig') }}
+
+  <div class="large-center-wrapper mb-5">
+    <div class="page-title-wrapper">
+        <h2>CANDIDAT</h2>
+    </div>
+
+    <div class="inner-center-wrapper">
+      <h3>Votre compte a été mis à jour</h3>
+      <div class="alert alert-success text-center mt-3">
+        Le compte du candidat {{ candidateFirstName }} {{ candidateLastName }} a bien été mis à jour. Utiliser les identifiants de connexion renseignés pour s'authentifier.
+      </div>
+      <a class="btn btn-primary button-shadow mt-3" href="{{ path('app_candidate') }}" role="button">Retour</a>
+    </div>
+  </div>
+
+{% endblock %}

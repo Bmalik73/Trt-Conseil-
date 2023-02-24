@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CONSULTANT :: TRT Conseil{% endblock %}
+
+{% block body %}
+
+  {{ include('parts/_header.html.twig') }}
+
+  <div class="large-center-wrapper mb-5">
+    <div class="page-title-wrapper">
+        <h2>CONSULTANT</h2>
+    </div>
+
+    <div class="inner-center-wrapper">
+      <h3>Offre d'emploi supprimée</h3>
+      <div class="alert alert-success text-center mt-3">
+        L'offre d'emploi intitulée {{ jobOffer.title }} de l'entreprise {{ jobOffer.company.company }} a été désapprouvée : Elle n'apparaitra pas dans la liste proposée aux candidats.
+      </div>
+      <a class="btn btn-primary button-shadow mt-3" href="{{ path('app_consultant') }}" role="button">Retour</a>
+    </div>
+  </div>
+
+{% endblock %}

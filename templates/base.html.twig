@@ -1,102 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <!-- CSS only -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-		<!-- JavaScript Bundle with Popper -->
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-			<link rel="stylesheet" href="{{ asset('assets/app.css') }}">
-
-		{% endblock %}
-
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-
+        <link rel="stylesheet" href="{{ asset('styles/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('styles/style.css') }}">
     </head>
     <body>
-<nav class="navbar navbar-expand-lg bg-light">
-	<div class="container-fluid">
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarNav">
-			<ul class="navbar-nav">
-				<li class="nav-item">
-					<a class="nav-link" aria-current="page" href="{{ path('app_login') }}">Login</a>
-				</li>
-				<li class="nav-item">
-				<a class="nav-link" aria-current="page" href="{{ path('app_user_new') }}">Créer un compte candidat</a>
-			   </li>
-				<li class="nav-item">
-				<a class="nav-link" aria-current="page" href="{{ path('app_recruteur_user_new') }}">Créer un compte recruteur</a>
-			   </li>
-		  {% if app.user %}
-		  {% if app.user.isValidate == true %}
-           {% if 'ROLE_CANDIDAT' in app.user.roles %}
-				<li class="nav-item">
-				<a class="nav-link" aria-current="page" href="{{ path('app_user_index') }}">Modifier le profil</a>
-			   </li>
-			 {% endif %}
-          {% endif %}
-		  {% endif %}
-		  {% if app.user %}
-		  {% if app.user.isValidate == true %}
-           {% if 'ROLE_RECRUTEUR' in app.user.roles %}
-				<li class="nav-item">
-				<a class="nav-link" aria-current="page" href="{{ path('app_recruteur_user_index') }}">Modifier le profil</a>
-			   </li>
-			 {% endif %}
-          {% endif %}
-		  {% endif %}
-				{% if app.user %}
-           {% if 'ROLE_ADMIN' in app.user.roles %}
-              	<li class="nav-item">
-                <a class="nav-link" href="{{ path('app_register') }}">Créer consultant/admin</a>
-              </li>
-            {% endif %}
-          {% endif %}
-		  		{% if app.user %}
-				{% if app.user.isValidate == true %}
-		  {% if 'ROLE_RECRUTEUR' in app.user.roles %}
-              	<li class="nav-item">
-                <a class="nav-link" href="{{ path('app_annonce_index') }}">Publier une annonce</a>
-              	</li>
-            {% endif %}
-          {% endif %}
-		  {% endif %}
-		  		{% if app.user %}
-				{% if app.user.isValidate == true %}
-          {% if 'ROLE_CANDIDAT' in app.user.roles %}
-				<li class="nav-item">
-					<a class="nav-link" aria-current="page" href="{{ path('app_annonce_candidat') }}">Annonces</a>
-				</li>
-			{% endif %}
-          {% endif %}
-		  {% endif %}
-		  {% if app.user %}
-          {% if 'ROLE_CONSULTANT' in app.user.roles %}
-				<li class="nav-item">
-					<a class="nav-link" aria-current="page" href="{{ path('consultant') }}">Tableau de bord</a>
-				</li>
-			{% endif %}
-		  {% endif %}
-				<li class="nav-item">
-				{% if app.user %}
-					<a class="btn btn-danger" aria-current="page" href="{{ path('app_logout') }}">Se deconnecter</a>
-				{% endif %}
-				</li>
-			</ul>
-		</div>
-	</div>
-</nav>
-
         {% block body %}{% endblock %}
+        <script src="{{ asset('scripts/bootstrap.bundle.min.js') }}"></script>
     </body>
 </html>

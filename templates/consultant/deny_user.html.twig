@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CONSULTANT :: TRT Conseil{% endblock %}
+
+{% block body %}
+
+  {{ include('parts/_header.html.twig') }}
+
+  <div class="large-center-wrapper mb-5">
+    <div class="page-title-wrapper">
+        <h2>CONSULTANT</h2>
+    </div>
+
+    <div class="inner-center-wrapper">
+      {% if user.userType == 3 %}
+        <h3>Compte recruteur supprimé</h3>
+        <div class="alert alert-success text-center mt-3">
+          Le compte du recruteur {{ user.email }} a été désapprouvé : Il ne peut plus se connecter à l'application.
+        </div>
+      {% elseif user.userType == 4 %}
+        <h3>Compte candidat supprimé</h3>
+        <div class="alert alert-success text-center mt-3">
+          Le compte du candidat {{ user.email }} a été désapprouvé : Il ne peut plus se connecter à l'application.
+        </div>
+      {% endif %}
+      <a class="btn btn-primary button-shadow mt-3" href="{{ path('app_consultant') }}" role="button">Retour</a>
+    </div>
+  </div>
+
+{% endblock %}

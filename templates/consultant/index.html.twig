@@ -1,0 +1,159 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CONSULTANT :: TRT Conseil{% endblock %}
+
+{% block body %}
+
+    {{ include('parts/_header.html.twig') }}
+
+    <div class="large-center-wrapper mb-5">
+        <div class="page-title-wrapper">
+            <h2>CONSULTANT</h2>
+        </div>
+
+        <div class="inner-center-wrapper">
+            <div class="w-100 bottom-separator mb-4">
+                <h3>Liste des candidats à approuver</h3>
+                <div class="table-wrapper mb-3 p-2">
+                    <table class="table table-sm table-hover">
+                        <thead>
+                            <tr class="table-warning">
+                                <th>
+                                    E-mail
+                                </th>
+                                <th class="text-end">
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for unauthorizedCandidate in unauthorizedCandidates %}
+                                <tr>
+                                    <td>🟡 {{ unauthorizedCandidate.email }}</td>
+                                    <td class="d-flex flex-row justify-content-end align-items-center"><a class="btn btn-sm btn-primary button-shadow me-1" href="{{ path('app_consultant_grant_candidate', {'id': unauthorizedCandidate.id}) }}" role="button">Approuver</a>
+                                                                                                       <a class="btn btn-sm btn-danger button-shadow ms-2" href="{{ path('app_consultant_deny_user', {'id': unauthorizedCandidate.id}) }}" role="button">Supprimer</a>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="2">✅ Aucun nouveau candidat</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="w-100 bottom-separator mb-4">
+                <h3>Liste des recruteurs à approuver</h3>
+                <div class="table-wrapper mb-3 p-2">
+                    <table class="table table-sm table-hover">
+                        <thead>
+                            <tr class="table-warning">
+                                <th>
+                                    E-mail
+                                </th>
+                                <th class="text-end">
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for unauthorizedRecruiter in unauthorizedRecruiters %}
+                                <tr>
+                                    <td>🟡 {{ unauthorizedRecruiter.email }}</td>
+                                    <td class="d-flex flex-row justify-content-end align-items-center"><a class="btn btn-sm btn-primary button-shadow me-1" href="{{ path('app_consultant_grant_recruiter', {'id': unauthorizedRecruiter.id}) }}" role="button">Approuver</a>
+                                                                                                       <a class="btn btn-sm btn-danger button-shadow ms-2" href="{{ path('app_consultant_deny_user', {'id': unauthorizedRecruiter.id}) }}" role="button">Supprimer</a>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="2">✅ Aucun nouveau recruteur</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="w-100 bottom-separator mb-4">
+                <h3>Liste des annonces à approuver</h3>
+                <div class="table-wrapper mb-3 p-2">
+                    <table class="table table-sm table-hover">
+                        <thead>
+                            <tr class="table-warning">
+                                <th>
+                                    Titre
+                                </th>
+                                <th>
+                                    Entreprise
+                                </th>
+                                <th>
+                                    Description
+                                </th>
+                                <th class="text-end">
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for jobOfferToApprove in jobOffersToApprove %}
+                                <tr>
+                                    <td>🟡 {{ jobOfferToApprove.title }}</td>
+                                    <td><b>{{ jobOfferToApprove.company.company }}</b></td>
+                                    <td>{{ jobOfferToApprove.description }}</td>
+                                    <td class="d-flex flex-row justify-content-end align-items-center"><a class="btn btn-sm btn-primary button-shadow me-1" href="{{ path('app_consultant_grant_job_offer', {'id': jobOfferToApprove.id}) }}" role="button">Approuver</a>
+                                                                                                       <a class="btn btn-sm btn-danger button-shadow ms-2" href="{{ path('app_consultant_deny_job_offer', {'id': jobOfferToApprove.id}) }}" role="button">Supprimer</a>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="4">✅ Aucune nouvelle annonce</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="w-100 mb-4">
+                <h3>Liste des candidatures à approuver</h3>
+                <div class="table-wrapper mb-3 p-2">
+                    <table class="table table-sm table-hover">
+                        <thead>
+                            <tr class="table-warning">
+                                <th>
+                                    Annonce
+                                </th>
+                                <th>
+                                    Candidat
+                                </th>
+                                <th>
+                                    C.V.
+                                </th>
+                                <th class="text-end">
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for jobApplicationToApprove in jobApplicationsToApprove %}
+                                <tr>
+                                    <td>🟡 {{ jobApplicationToApprove.jobOffer.title }}</td>
+                                    <td>{{ jobApplicationToApprove.candidate.firstName }} {{ jobApplicationToApprove.candidate.lastName }}</td>
+                                    <td><a href="{{ asset('uploads/cv/' ~ jobApplicationToApprove.candidate.cv) }}">📄 Voir le C.V.</a></td>
+                                    <td class="d-flex flex-row justify-content-end align-items-center"><a class="btn btn-sm btn-primary button-shadow me-1" href="{{ path('app_consultant_grant_job_application', {'id': jobApplicationToApprove.id}) }}" role="button">Approuver</a>
+                                                                                                       <a class="btn btn-sm btn-danger button-shadow ms-2" href="{{ path('app_consultant_deny_job_application', {'id': jobApplicationToApprove.id}) }}" role="button">Supprimer</a>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="4">✅ Aucune nouvelle candidature</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>&ensp;</div>
+
+{% endblock %}

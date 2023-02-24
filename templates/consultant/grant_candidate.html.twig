@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CONSULTANT :: TRT Conseil{% endblock %}
+
+{% block body %}
+
+  {{ include('parts/_header.html.twig') }}
+
+  <div class="large-center-wrapper mb-5">
+    <div class="page-title-wrapper">
+        <h2>CONSULTANT</h2>
+    </div>
+
+    <div class="inner-center-wrapper">
+      <h3>Compte approuvé</h3>
+      <div class="alert alert-success text-center mt-3">
+        Le compte du candidat {{ candidate.email }} a bien été approuvé. Utiliser les identifiants de connexion renseignés pour s'authentifier.
+      </div>
+      <a class="btn btn-primary button-shadow mt-3" href="{{ path('app_consultant') }}" role="button">Retour</a>
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,161 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}RECRUTEUR : TRT Conseil{% endblock %}
+
+{% block body %}
+
+    {{ include('parts/_header.html.twig') }}
+
+    <div class="large-center-wrapper mb-5">
+        <div class="page-title-wrapper">
+            <h2>RECRUTEUR</h2>
+        </div>
+
+        <div class="inner-center-wrapper">
+            {% if (recruitCompany == '') %}
+                <div class="advisory">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-3 d-flex flex-column justify-content-center align-items-center">
+                                <img class="logo" src="{{ asset('images/advisory.png') }}" alt="Advisory">
+                            </div>
+                            <div class="col-9">
+                                <h3>Vous n'avez pas encore complété votre profil !</h3>
+                                {{ form_start(recruiterCreationForm) }}
+                                    {{ form_row(recruiterCreationForm.company, {
+                                        id: 'inputCompanyMax'
+                                    }) }}
+                                    {{ form_row(recruiterCreationForm.address, {
+                                        id: 'inputAddressMax'
+                                    }) }}
+                                    <div class="d-flex flex-row justify-content-center">
+                                        <button type="submit" class="btn btn-primary button-shadow me-2 mt-4 ps-5 pe-5">Valider</button>
+                                    </div>
+                                {{ form_end(recruiterCreationForm) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="advisory-success">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-3 d-flex flex-column justify-content-center align-items-center">
+                                <img class="medium-logo" src="{{ asset('images/recruiter.png') }}" alt="Advisory">
+                            </div>
+                            <div class="col-9 d-flex flex-column justify-content-center">
+                                <h3>Entreprise {{ recruitCompany }} :</h3>
+                                <ul>
+                                    <li><b>Nom de l'entreprise : </b>{{ recruitCompany }}</li>
+                                    <li><b>Adresse E-mail : </b>{{ recruitEmail }}</li>
+                                    <li><b>Adresse postale : </b>{{ recruitAddress }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="w-100 mt-4">
+                <h3>Liste de vos offres d'emploi</h3>
+                <div class="table-wrapper mb-3 p-2">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr class="table-warning">
+                                <th>
+                                    Titre
+                                </th>
+                                <th>
+                                    Statut
+                                </th>
+                                <th>
+                                    Candidatures
+                                </th>
+                                <th class="text-end">
+                                    Actions
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if recruitCompany != '' %}
+                                {% for recruitJobOffer in recruitJobOffers %}
+                                    <tr>
+                                        <td><b>{{ recruitJobOffer.title }}</b></td>
+                                        <td>
+                                            {% if recruitJobOffer.isApproved == false %}
+                                                🟡 En attente
+                                            {% else %}
+                                                🟢 En ligne
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if recruitJobOffer.isApproved == false %}
+                                                Les candidatures pour ce poste n'ont pas été ouvertes par nos consultants.
+                                            {% else %}
+                                                {% if jobApplications is not null %}
+                                                    {% set hasJobApplications = false %}
+                                                    {% for jobApplication in jobApplications %}
+                                                        {% if jobApplication.jobOffer.id == recruitJobOffer.id and jobApplication.isApproved == true %}
+                                                            {% set hasJobApplications = true %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    {% if hasJobApplications == true %}
+                                                        {% for jobApplication in jobApplications %}
+                                                            {% if jobApplication.jobOffer.id == recruitJobOffer.id and jobApplication.isApproved == true %}
+                                                                <table class="w-100">
+                                                                    <tr>
+                                                                        <td class="w-25">{{ jobApplication.candidate.firstName }} {{ jobApplication.candidate.lastName }}</td>
+                                                                        <td class="w-50"><a href="mailto:{{ jobApplication.candidate.user.email }}">{{ jobApplication.candidate.user.email }}</a></td>
+                                                                        <td class="w-25 text-end"><a href="{{ asset('uploads/cv/' ~ jobApplication.candidate.cv) }}">📄 Voir le C.V.</a></td>
+                                                                    </tr>
+                                                                </table>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        Vous n'avez encore aucune candidature pour ce poste.
+                                                    {% endif %}
+                                                {% else %}
+                                                    Vous n'avez encore aucune candidature pour ce poste.
+                                                {% endif %}
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-end"><a class="btn btn-sm btn-danger button-shadow ms-2" href="{{ path('app_cancel_job_offer', {'id': recruitJobOffer.id}) }}" role="button">Supprimer l'offre</a></td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="4">Vous n'avez aucune offre d'emploi actuellement</td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="4">Vous devez compléter votre profil avant de pouvoir publier une offre d'emploi</td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="w-100 mt-4">
+                <h3>Créer une nouvelle offre d'emploi</h3>
+                <div class="table-wrapper mb-3 p-2">
+                    {% if recruitCompany != '' %}
+                        {{ form_start(jobOfferCreationForm) }}
+                            {{ form_row(jobOfferCreationForm.title, {
+                                id: 'inputTitleMax'
+                            }) }}
+                            {{ form_row(jobOfferCreationForm.description, {
+                                id: 'inputDescriptionMax'
+                            }) }}
+                            <div class="d-flex flex-row justify-content-center">
+                                <button type="submit" class="btn btn-primary button-shadow me-2 mt-4 mb-3 ps-5 pe-5">Valider</button>
+                            </div>
+                        {{ form_end(jobOfferCreationForm) }}
+                    {% else %}
+                        Vous devez compléter votre profil avant de pouvoir publier une offre d'emploi
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>&ensp;</div>
+
+{% endblock %}

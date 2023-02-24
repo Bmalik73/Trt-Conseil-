@@ -1,0 +1,30 @@
+<header>
+  <div class="header-content">
+    <div class="d-flex flex-row align-items-center m-0">
+      <img class="header-logo me-4" src="{{ asset('images/logo.png') }}" alt="Logo">
+      <h1 class="mb-0">TRT Conseil</h1>
+    </div>
+    <div class="d-none d-lg-flex">
+      {% if is_granted('ROLE_ADMINISTRATOR') %}
+        <p class="mb-0"><b>{{ adminFirstName }} {{ adminLastName }}</b> connecté 🟢&ensp;<a href="{{ path('app_logout') }}">Se déconnecter</a></p>
+      {% endif %}
+      {% if is_granted('ROLE_CONSULTANT') %}
+        <p class="mb-0"><b>{{ consultFirstName }} {{ consultLastName }}</b> connecté 🟢&ensp;<a href="{{ path('app_logout') }}">Se déconnecter</a></p>
+      {% endif %}
+      {% if is_granted('ROLE_RECRUITER') %}
+        {% if recruitCompany != '' %}
+          <p class="mb-0"><b>{{ recruitCompany }}</b> connecté 🟢&ensp;<a href="{{ path('app_logout') }}">Se déconnecter</a></p>
+        {% else %}
+          <p class="mb-0"><b>{{ recruitEmail }}</b> connecté 🟢&ensp;<a href="{{ path('app_logout') }}">Se déconnecter</a></p>
+        {% endif %}
+      {% endif %}
+      {% if is_granted('ROLE_CANDIDATE') %}
+        {% if (candidateFirstName != '') and (candidateLastName != '') %}
+          <p class="mb-0"><b>{{ candidateFirstName }} {{ candidateLastName }}</b> connecté 🟢&ensp;<a href="{{ path('app_logout') }}">Se déconnecter</a></p>
+        {% else %}
+          <p class="mb-0"><b>{{ candidateEmail }}</b> connecté 🟢&ensp;<a href="{{ path('app_logout') }}">Se déconnecter</a></p>
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+</header>
